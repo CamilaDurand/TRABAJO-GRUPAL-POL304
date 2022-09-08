@@ -1,4 +1,14 @@
 # TRABAJO-GRUPAL-POL304
-Repositorio colaborativo para principiantes
-Integrantes: 
-- 
+# Integrantes:
+- Camila Durand 
+- Héctor Delgado
+- Carlos Chávarri
+
+# Tema: 
+        
+        
+        
+        - VD1:
+        - VD2: 
+        
+        
