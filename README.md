@@ -5,6 +5,9 @@
 - Carlos Chávarri
 
 # Tema: Migraciones
+
+Aquí ponemos. qué queremos trabajar y por qué consideramos importante trabajar estadísticamente este tema.  
+
         
         
         
