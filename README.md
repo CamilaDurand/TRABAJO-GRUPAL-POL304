@@ -26,7 +26,9 @@ Aquí ponemos. qué queremos trabajar y por qué consideramos importante trabaja
  
  Base de Datos: World Bank (DataBank) (usodelinternet.csv)
  
- Justificación: 
+ Justificación:  El internet a pasado a ser considerado un derecho debido a su importancia para el desarrollo de la vida de las personas. En ese sentido, 
+ se considera que la ausencia o problemas de acceso a este servicio por parte de la población podría explicar un aumento en la probabilidad de abandoanr 
+ el país. 
  
  Variable 5: Inflación, Precios al consumidor(% anual)
 
