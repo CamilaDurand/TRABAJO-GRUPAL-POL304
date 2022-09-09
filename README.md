@@ -18,7 +18,12 @@ Aquí ponemos. qué queremos trabajar y por qué consideramos importante trabaja
                 Justificación: 
                 
                 
-        - VD2: 
+        - VD2: Número de Migrantes (Emigranstes Totales)
+               Base de Datos: Datos Macro ( Emigración) (EMIGRANTES2019.csv)   
+               
+               Justificación:     
+               
+               
         
         
  Responsable: Carlos Ch. 
