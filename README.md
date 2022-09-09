@@ -26,7 +26,7 @@ Aquí ponemos. qué queremos trabajar y por qué consideramos importante trabaja
                
         
         
- Responsable: Carlos Ch. 
+ Responsable: Carlos Ch. 	:flying_saucer:
  
  Variable 4:  Uso del internet (% población)
  
