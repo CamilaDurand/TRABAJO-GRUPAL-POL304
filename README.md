@@ -1,17 +1,23 @@
 # TRABAJO-GRUPAL-POL304
-# Integrantes:
+# Integrantes :relaxed:	  :
 - Camila Durand 
 - Héctor Delgado
 - Carlos Chávarri
 
-# Tema: Migraciones
+# Tema: Migraciones :globe_with_meridians:
 
 Aquí ponemos. qué queremos trabajar y por qué consideramos importante trabajar estadísticamente este tema.  
 
         
         
         
-        - VD1:
+        - VD1: Net migration (migrant(s)/1,000 population)
+        
+                Base de Datos: CIA (The World Fact Book) (Netmigration2022.csv)
+                
+                Justificación: 
+                
+                
         - VD2: 
         
         
