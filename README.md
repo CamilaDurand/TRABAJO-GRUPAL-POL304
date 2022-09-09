@@ -8,23 +8,17 @@
 
 Aquí ponemos. qué queremos trabajar y por qué consideramos importante trabajar estadísticamente este tema.  
 
-        
-        
+                
         
         - VD1: Net migration (migrant(s)/1,000 population)
         
-                Base de Datos: CIA (The World Fact Book) (Netmigration2022.csv)
-                
-                Justificación: 
+                Base de Datos: CIA (The World Fact Book) (Netmigration2022.csv
                 
                 
         - VD2: Número de Migrantes (Emigranstes Totales)
                Base de Datos: Datos Macro ( Emigración) (EMIGRANTES2019.csv)   
                
-               Justificación:     
                
-               
-        
         
  Responsable: Carlos Ch. 	:flying_saucer:
  
