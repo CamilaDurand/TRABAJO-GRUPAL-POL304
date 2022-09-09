@@ -41,7 +41,8 @@ Variable 6: Índice de Democracia
 
 Base de datos: The Economist (Wikipedia) (ID2019.csv)
 
-Justificación:  
+Justificación:  Este indicador que está sujeto a evaluación y posible cambios pues a lo que se apunta con el mismo es a tratar de ubicar qué peso tendría la 
+intolerancia política, presencia de autoritarismos o persecución por creencias religiosas. 
 
 
         
