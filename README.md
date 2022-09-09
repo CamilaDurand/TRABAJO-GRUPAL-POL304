@@ -34,7 +34,8 @@ Aquí ponemos. qué queremos trabajar y por qué consideramos importante trabaja
 
 Base de Datos: World Bank (DataBank) (%inflación2019.csv)
 
-Justificación: 
+Justificación: Este es un indicador que podría considerarse clásico o sumamente intuitivo. El aumento de la inflación de un país y por ende el costo de 
+vida , en algunos casos exagerado, podría explicar en gran medida el abandono progresivo de un país. 
 
 Variable 6: Índice de Democracia
 
