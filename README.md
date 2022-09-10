@@ -6,8 +6,7 @@
 
 # Tema: Migraciones :globe_with_meridians:
 
-Aquí ponemos. qué queremos trabajar y por qué consideramos importante trabajar estadísticamente este tema.  
-
+En el presente trabajo, nos proponemos indagar los principales factores que influyen en los movimientos migratorios, así como la evolución y tendencias de este fenómeno a nivel global. Pará ello, se realizarán una serie de pruebas estadísticas en base a un soporte teórico predefinido a modo de hipótesis. Finalmente, con este trabajo se busca poner a prueba variables que podrían incidir a futuro en este fenómeno y de esto modo tomar decisiones que reduzcan la exposición de personas a márgenes críticos de vulnerabilidad. El año de estudio escogido escogido es el 2019 por una serie de conveniencias metodológicas
                 
         
         - VD1: Net migration (migrant(s)/1,000 population)
