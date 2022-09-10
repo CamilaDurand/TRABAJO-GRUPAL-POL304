@@ -65,5 +65,23 @@ Base de datos: The Economist (Wikipedia) (ID2019.csv)
 Justificación:  Este indicador que está sujeto a evaluación y posible cambios pues a lo que se apunta con el mismo es a tratar de ubicar qué peso tendría la 
 intolerancia política, presencia de autoritarismos o persecución por creencias religiosas. 
 
+# Responsable: Héctor Delgado. 	:flying_saucer:
 
+Variable 7: Índice de Percepción de la Corrupción
+
+Base de datos: Transparency International (Corrupción-2019)
+
+Justificación: Un país con niveles de corrupción alto en el sector público trae consigo inestabilidad y un requebrajamiento en las instituciones de un país, algo muy cercano a la realidad peruana. En ese sentido, evaluar como es que la corrupción estatal tiene consecuencias directas en la migración de personas recae en el factor de inestabilidad política que genera tener altos indices de corrupción por lo que este indice califica a 180 países y territorios en función de los niveles percibidos de corrupción en el sector público
+
+Variable 8: Indicador de Derechos Humanos y Estado de Derecho
+
+Base de datos: Foro de la Paz (DDHH.csv)
+
+Justificación: Este indicador analiza si se protegen los derechos humanos fundamentales y si se respetan las libertades civiles individuales. Consideramos que si un país no respeta los derechos basicos de la población (incluyendo minorias sociales) existira un mayor numero de migrantes.
+
+Variable 9: Indice de la Paz Global
+
+Base de datos: Vision of Humanity (CPI2019-1.xlsx - CPI2019.csv)
+
+Justificación: Tener paz en un país es una pieza clave para que la migración no sea acelerada a niveles descontrolados debido a que un Estado en conflicto tiende a ser menos atractivo para sus ciudadanos. Es por ello que este indicador que clasifica a 163 estados y territorios independientes según su nivel de paz.
         
