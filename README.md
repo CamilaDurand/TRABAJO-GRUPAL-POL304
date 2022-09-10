@@ -20,7 +20,7 @@ Aquí ponemos. qué queremos trabajar y por qué consideramos importante trabaja
                
                
         
-Responsable: Camila Durand. 	:flying_saucer:
+# Responsable: Camila Durand. 	:flying_saucer:
 
 Variable 1: Impacto del cambio climatico
 
@@ -41,7 +41,7 @@ Base de datos: fragilestatesindex (publicservices-2019.csv)
 Justificacion: La vida de muchas personas son seriamente afectadas por las condiciones que encuentran en sus países, estas dependen en gran medida del acceso que tengan a los servicios públicos tales como salud, educación, agua y saneamiento, infraestructura de transporte, electricidad y energía, y conectividad. Consideramos el estado de dichos servicios básicos como factores determinantes para la migración pues el encontrarlos o no en sus respectivos países pues incrementar o reducir la migración respectivamente. 
 
 
-Responsable: Carlos Ch. 	:flying_saucer:
+# Responsable: Carlos Ch. 	:flying_saucer:
  
  Variable 4:  Uso del internet (% población)
  
