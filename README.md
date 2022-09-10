@@ -47,8 +47,8 @@ Justificacion: La vida de muchas personas son seriamente afectadas por las condi
  
  Base de Datos: World Bank (DataBank) (usodelinternet.csv)
  
- Justificación:  El internet a pasado a ser considerado un derecho debido a su importancia para el desarrollo de la vida de las personas. En ese sentido, 
- se considera que la ausencia o problemas de acceso a este servicio por parte de la población podría explicar un aumento en la probabilidad de abandoanr 
+ Justificación:  El internet ha pasado a ser considerado un casi un derecho debido a su importancia para el desarrollo de la vida de las personas. En ese sentido, 
+ se considera que la ausencia o problemas de acceso a este servicio por parte de la población podría ayudar a explicar un aumento en la probabilidad de abandoanr 
  el país. 
  
  Variable 5: Inflación, Precios al consumidor(% anual)
@@ -62,8 +62,7 @@ Variable 6: Índice de Democracia
 
 Base de datos: The Economist (Wikipedia) (ID2019.csv)
 
-Justificación:  Este indicador que está sujeto a evaluación y posible cambios pues a lo que se apunta con el mismo es a tratar de ubicar qué peso tendría la 
-intolerancia política, presencia de autoritarismos o persecución por creencias religiosas. 
+Justificación:  Este indicador que está sujeto a evaluación y posible cambios. Sin embargo, parte del supuesto que un país las limitaciones en cuanto intolerancia política, libertad de expresión, presencia de autoritarismos o persecución por creencias religiosas u otras, tendría importantes efectos sobre la intención de abandonar un país. 
 
 # Responsable: Héctor Delgado. 	:flying_saucer:
 
