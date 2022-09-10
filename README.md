@@ -62,7 +62,8 @@ Variable 6: Índice de Democracia
 
 Base de datos: The Economist (Wikipedia) (ID2019.csv)
 
-Justificación:  Este indicador que está sujeto a evaluación y posible cambios. Sin embargo, parte del supuesto que un país las limitaciones en cuanto intolerancia política, libertad de expresión, presencia de autoritarismos o persecución por creencias religiosas u otras, tendría importantes efectos sobre la intención de abandonar un país. 
+Justificación:  Este indicador que está sujeto a evaluación y posible cambios. Sin embargo, parte del supuesto en el cual las limitaciones en términos de libertades, falta de tolerancia política, persecución por razones étnicas, religiosas u otras, tendrían importantes efectos en las posibilidades de desarrollo de una ciudadanía, por tanto, implicaría un aumento sobre la intención de abandonar un país determinado.
+
 
 # Responsable: Héctor Delgado. 	:flying_saucer:
 
