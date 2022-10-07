@@ -50,12 +50,11 @@ Justificacion: La vida de muchas personas son seriamente afectadas por las condi
  se considera que la ausencia o problemas de acceso a este servicio por parte de la población podría ayudar a explicar un aumento en la probabilidad de abandoanr 
  el país. 
  
- Variable 5: Inflación, Precios al consumidor(% anual)
+ Variable 5: Población sin electricidad, (# personas)
 
-Base de Datos: World Bank (DataBank) (%inflación2019.csv)
+Base de Datos: Our world in Data (withoutelec.csv)
 
-Justificación: Este es un indicador que podría considerarse clásico o sumamente intuitivo. El aumento de la inflación de un país y por ende el costo de 
-vida , en algunos casos exagerado, podría explicar en gran medida el abandono progresivo de un país. 
+Justificación: La falta de acceso a electricidad, bajo la misma lógica de la falta de acceso al internete, puede representar un desincentivo para permanecer en el país y un incentivo para buscar otras oportunidades fuera del mismo. También está asociado a la posibilidad de generar ingresos económicos que permitan la subsitencia. Además de un aumento del costo de vida, pues se tienen que recurrir a otros medios más costosos para dimensiones básicas de la vida. 
 
 Variable 6: Índice de Democracia
 
