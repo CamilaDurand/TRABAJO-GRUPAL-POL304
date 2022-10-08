@@ -101,7 +101,7 @@ library(dplyr)
 library(stringr)
 library(rio)
 ISO3= import("https://raw.githubusercontent.com/CarlosChavarri23/TRABAJO-GRUPAL-POL304/main/ISO3%20-%20Hoja%201%20(1).csv")
-corrupcion = import("https://raw.githubusercontent.com/CarlosChavarri23/TRABAJO-GRUPAL-POL304/main/Corrupcion-2019.csv")
+corrupcion = import("https://raw.githubusercontent.com/CarlosChavarri23/TRABAJO-GRUPAL-POL304/main/Corrupcion%20-%20Hoja%201.csv")
 ddhh= import("https://raw.githubusercontent.com/CarlosChavarri23/TRABAJO-GRUPAL-POL304/main/DDHH.csv")
 paz=import("https://raw.githubusercontent.com/CarlosChavarri23/TRABAJO-GRUPAL-POL304/main/CPI2019-1.xlsx%20-%20CPI2019.csv")
 ```
