@@ -1,0 +1,82 @@
+---
+title: "REGRESIONES"
+author: "camila durand"
+date: "2022-10-08"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(rio)
+library(dplyr)
+library(stringr)
+```
+
+```{r}
+DATA = import("https://raw.githubusercontent.com/CarlosChavarri23/TRABAJO-GRUPAL-POL304/main/DataGRUPAL.csv")
+```
+
+```{r}
+colnames(DATA)=c("ISO3", "COUNTRY","MIGRATION", "DESEMPLEO","CRI","PUBLIC_SERV", "CORRUPTION","HUMANRIGTHS","PEACEINDEX","INTERNET", "HAMBRE", "ELECTRICIDAD")
+str(DATA)
+```
+
+REGRESION CAMILA
+```{r}
+modelo1=formula(MIGRATION~ DESEMPLEO + CRI + PUBLIC_SERV)
+```
+
+```{r results='asis'}
+reg1=lm(modelo1,data=DATA)
+summary(reg1)
+
+```
+```{r  results='asis'}
+library(stargazer)
+reg1=lm(modelo1,data=DATA)
+stargazer(reg1,type = "html",intercept.bottom = FALSE)
+```
+
+
+
+REGRESIONES HECTOR
+```{r  results='asis'}
+modelo2=formula(MIGRATION~ CORRUPTION)
+reg2=lm(modelo2,data=DATA)
+summary(reg2)
+library(stargazer)
+stargazer(reg2,type = "html",intercept.bottom = FALSE)
+```
+REGRESION CARLOS
+```{r results='asis' }
+modelo3=formula(MIGRATION~ INTERNET + HAMBRE + ELECTRICIDAD)
+reg3=lm(modelo3,data=DATA)
+summary(reg3)
+library(stargazer)
+stargazer(reg3,type = "html",intercept.bottom = FALSE)
+```
+COMPARACION DE MODELOS
+
+```{r results='asis' }
+library(stargazer)
+stargazer(reg1,reg2,reg3, type = "html", title = "Modelos planteadOs",digits = 2, single.row = F,no.space = F,intercept.bottom = FALSE,
+          dep.var.caption="Variable dependiente:",
+          dep.var.labels="Migracion neta",
+          keep.stat = c("n","adj.rsq","ser"),df = F,
+          notes.label = "Notas:")
+```
+
+
+
+```{r}
+library(ggplot2)
+library(sjPlot)
+
+
+plot_models(reg1,reg2,reg3,vline.color = "grey",m.labels=c("Modelo 1","Modelo 2","Modelo 3"))
+```
+
+SE puede ver el efecto de cada avriable independiente en nuetra variable dependiente y su significancia a traves de los modelos
