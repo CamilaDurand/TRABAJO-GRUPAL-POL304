@@ -1,0 +1,69 @@
+---
+title: "datoshector"
+author: "Héctor Delgado"
+date: "2022-10-07"
+output: html_document
+---
+
+```{r}
+
+library(htmltab)
+library(dplyr)
+library(stringr)
+library(rio)
+ISO3= import("https://raw.githubusercontent.com/CarlosChavarri23/TRABAJO-GRUPAL-POL304/main/ISO3%20-%20Hoja%201%20(1).csv")
+corrupcion = import("https://raw.githubusercontent.com/CarlosChavarri23/TRABAJO-GRUPAL-POL304/main/Corrupcion%20-%20Hoja%201.csv")
+ddhh= import("https://raw.githubusercontent.com/CarlosChavarri23/TRABAJO-GRUPAL-POL304/main/HUMANRIGHTS1%20-%20Hoja%201%20(1).csv")
+paz=import("https://raw.githubusercontent.com/CarlosChavarri23/TRABAJO-GRUPAL-POL304/main/CPI2019-1.xlsx%20-%20CPI2019.csv")
+```
+
+
+
+```{r}
+corrupcion=corrupcion[-1,]
+colnames (corrupcion)[2] <- "2019"
+colnames (corrupcion)[1] <- "Country"
+
+data1=merge(ISO3,corrupcion)
+colnames(data1)[1]="COUNTRY"
+colnames(ddhh)[1]="COUNTRY"
+data2=merge(data1,ddhh, by="COUNTRY", all=T)
+data2[,-4]
+data2.1=data2[,-4]
+data2.2=data2.1[,-4]
+data2.3=data2.2[,-4]
+```
+
+```{r}
+paz=paz[-1,]
+paz=paz[-1,]
+paz=paz[-1,]
+paz=paz[,-3]
+paz=paz[,-3][,-4]
+paz=paz[,-3]
+colnames (paz)[1] <- "COUNTRY"
+colnames (paz)[2] <- "PEACE"
+datahector=merge(data2.3,paz, by="COUNTRY", all=T)
+```
+
+```{r}
+
+colnames (datahector)[3] <- "CORRUPCION"
+colnames (datahector)[4] <- "HUMAN_RIGHTS"
+colnames (datahector)[5] <- "PEACE"
+str(datahector)
+as.numeric(datahector$CORRUPCION)
+as.numeric(datahector$HUMAN_RIGHTS)
+as.numeric(datahector$PEACE)
+str(datahector)
+```
+```{r}
+write.csv(data_final, file = "data.csv")
+```
+
+#DISCLAIMER
+#Mis dos variables las de Human_Rights y las de PEACE no se vuelven a numeric asi que solo corri la regresion de Corrupcion.
+
+
+
+
