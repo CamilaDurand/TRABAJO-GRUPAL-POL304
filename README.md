@@ -88,7 +88,7 @@ Justificación: Tener paz en un país es una pieza clave para que la migración 
   - partes individuales, avance con union d elas 3 variables de cado uno
    - camila: merge-data-camila.rmd
    - hector: data_hector.rmd
-   - carlos: 
+   - carlos: base_carlos.rmd
     
 - Base de datos unificada: base limpia con sus variable independientes y la variable dependiente del grupo 
     - DataGRUPAL.csv
