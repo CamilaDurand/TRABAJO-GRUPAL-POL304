@@ -1,0 +1,103 @@
+---
+title: "DATA-FINAL"
+author: "camila durand"
+date: "2022-10-06"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(rio)
+library(dplyr)
+library(stringr)
+```
+CARGAR TODAS LAS BASES DE DATOS
+```{r}
+desempleo = import("https://raw.githubusercontent.com/CarlosChavarri23/TRABAJO-GRUPAL-POL304/main/desempleo2019%20-%20Hoja%201%20(1).csv")
+crisk = import("https://raw.githubusercontent.com/CarlosChavarri23/TRABAJO-GRUPAL-POL304/main/climaterisk-index%20-%20Hoja%201%20(1).csv")
+publicservices = import("https://raw.githubusercontent.com/CarlosChavarri23/TRABAJO-GRUPAL-POL304/main/publicservices-2019%20-%20Hoja%201%20(1).csv")
+netmigration = import("https://raw.githubusercontent.com/CarlosChavarri23/TRABAJO-GRUPAL-POL304/main/Netmigration2022.csv")
+iso= import("https://raw.githubusercontent.com/CarlosChavarri23/TRABAJO-GRUPAL-POL304/main/iso%20-%20paises.csv")
+```
+
+LIMPIEZA Y UNIFICACION CAMILA
+```{r}
+colnames(netmigration) = c("country","migration")
+```
+
+```{r}
+borrar <- c("iso2", "phone_code", "nom")
+iso3 <- iso[ , !(names(iso) %in% borrar)]
+head(iso3, n=9)
+```
+```{r}
+desempleo= desempleo[complete.cases(desempleo$`year`),]
+```
+
+```{r}
+migration1= merge(iso3, netmigration,  by = "country", all = T)
+```
+
+```{r}
+migration1= migration1[complete.cases(migration1$`migration`),]
+```
+
+```{r}
+des1= merge(migration1, desempleo, by = "country", all = T)
+```
+
+```{r}
+borrar <- c("país", "year")
+des2 <- des1[ , !(names(des1) %in% borrar)]
+head(des2, n=9)
+```
+```{r}
+datacami= merge(des2, crisk, by = "country", all = T)
+```
+
+```{r}
+datafc= merge(datacami, publicservices, by = "country", all = T)
+```
+
+```{r}
+datafc= datafc[complete.cases(datafc$`P2: Public Services`),]
+datafc= datafc[complete.cases(datafc$`CRI score`),]
+datafc= datafc[complete.cases(datafc$`desempleo total % de la poblacion activa total`),]
+datafc= datafc[complete.cases(datafc$`migration`),]
+datafc= datafc[complete.cases(datafc$`iso3`),]
+```
+
+```{r}
+borrar <- c("Year", "Rank", "fatalities in 2019 (rank)", "fatalities per 100000 inhabitants rank", "losses in million US$ PPP Rank", "Losses per unit DGP IN % Rank")
+datacamila <- datafc[ , !(names(datafc) %in% borrar)]
+head(datacamila, n=9)
+```
+
+```{r}
+colnames(datacamila) = c("COUNTRY","ISO3","MIGRATION", "DESEMPLEO","CRI","PUBLIC_SERV")
+```
+
+
+REGRESION CAMILA
+```{r}
+modelo1=formula(MIGRATION~ DESEMPLEO + CRI + PUBLIC_SERV)
+```
+
+```{r}
+str(datacamila)
+```
+
+```{r, results='asis'}
+reg1=lm(modelo1,data=datacamila)
+summary(reg1)
+
+library(stargazer)
+reg1=lm(modelo1,data=datacamila)
+stargazer(reg1,type = "html",intercept.bottom = FALSE)
+        
+```
+
+
