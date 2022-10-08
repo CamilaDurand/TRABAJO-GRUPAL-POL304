@@ -83,3 +83,13 @@ Base de datos: Vision of Humanity (CPI2019-1.xlsx - CPI2019.csv)
 
 Justificación: Tener paz en un país es una pieza clave para que la migración no sea acelerada a niveles descontrolados debido a que un Estado en conflicto tiende a ser menos atractivo para sus ciudadanos. Es por ello que este indicador que clasifica a 163 estados y territorios independientes según su nivel de paz.
         
+# SEGUNDA ENTREGA :globe_with_meridians:
+- Rmd con la limpieza y unificación de las bases de datos (idealmente, ustedes jalan en R las bases de datos sucias, limpian, unifican y exportan la base de datos final)
+  - partes individuales, avance con union d elas 3 variables de cado uno
+    camila: merge-data-camila.rmd
+    hector: data_hector.rmd
+    carlos: 
+    
+- Base de datos unificada: base limpia con sus variable independientes y la variable dependiente del grupo 
+
+- Rmd y HTML con tres regresiones: debe haber un HTML en el repo con tres regresiones. Cada persona del grupo hace una regresión con las variables independientes que llevó al grupo en la primera entrega.
