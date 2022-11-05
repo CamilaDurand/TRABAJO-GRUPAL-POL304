@@ -86,10 +86,15 @@ Justificación: Tener paz en un país es una pieza clave para que la migración 
 # SEGUNDA ENTREGA :globe_with_meridians:
 - Rmd con la limpieza y unificación de las bases de datos (idealmente, ustedes jalan en R las bases de datos sucias, limpian, unifican y exportan la base de datos final)
   - partes individuales, avance con union d elas 3 variables de cado uno
-    camila: merge-data-camila.rmd
-    hector: data_hector.rmd
-    carlos: 
+   - camila: merge-data-camila.rmd
+   - hector: data_hector.rmd
+   - carlos: base_carlos.rmd
     
 - Base de datos unificada: base limpia con sus variable independientes y la variable dependiente del grupo 
+    - DataGRUPAL.csv
+    - DATAUNIFICADA.Rmd
+ 
 
 - Rmd y HTML con tres regresiones: debe haber un HTML en el repo con tres regresiones. Cada persona del grupo hace una regresión con las variables independientes que llevó al grupo en la primera entrega.
+  - REGRESIONES.Rmd
+  - REGRESIONES.html

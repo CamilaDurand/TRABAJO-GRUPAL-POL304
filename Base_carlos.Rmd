@@ -1,0 +1,71 @@
+---
+title: "RMD CARLOS"
+author: "CH"
+date: "2022-10-08"
+output: html_document
+---
+
+2. A partir de aquí está la parte principal de esta entrega, los pasos realizados para unificar nuestras tres variables en una sola base de datos (parte individual).
+
+```{r}
+Base1="https://gist.github.com/brenes/1095110/raw/c8f208b03485ba28f97c500ab7271e8bce43b9c6/paises.csv"
+ISO=import(Base1)
+data0<- na.omit (ISO)
+```
+
+```{r}
+Baseintern="https://github.com/CarlosChavarri23/TRABAJO-GRUPAL-POL304/raw/main/usodelinternet2019.csv"
+internet=import(Baseintern)
+dataint<- na.omit(internet)
+
+colnames(dataint)=c("name","% población")
+library(dplyr)
+
+dataA=inner_join(data0,dataint,by="name")
+dataB=dataA[,-c(1,3,4,6)]
+data1=dataB[,-c(1)]
+```
+
+
+```{r}
+Basefoodinsec="https://github.com/CarlosChavarri23/TRABAJO-GRUPAL-POL304/blob/main/2.1.2_Total_population_in_moderate_or_severe_food_insecurity.xlsx?raw=true"
+FOOD=import(Basefoodinsec)
+foodsecurity= filter(FOOD, TimePeriod ==2019)
+table(foodsecurity$TimePeriod)
+sum(is.na(foodsecurity$Value))
+foodsecurity = foodsecurity[complete.cases(foodsecurity$ISOalpha3),]
+foodsecurity=foodsecurity[,-c(1,2,3,4,5,6,8,9,10,11,12,13,14,15,16,17,18,20,21)]
+
+
+
+colnames(foodsecurity)=c("ISO3","FOODINSEC")
+dataC=left_join(data0,foodsecurity,by="ISO3")
+
+dataD=dataC[,-c(1,3,4,6)]
+data2=dataD[,-c(1)]
+
+```
+
+```{r}
+Baseelect="https://github.com/CarlosChavarri23/TRABAJO-GRUPAL-POL304/raw/main/withoutelec2019.csv"
+withoutelect=import(Baseelect)
+datawelect<- na.omit(withoutelect)
+colnames(datawelect)=c("name","iso3","year", "number of people")
+dataE=right_join(data0,datawelect,by="name")
+data3=dataE[,-c(1,2,3,4,5,6,8)]
+colnames(data3)=c("iso3","#ofpeopleWOelect")
+```
+
+```{r}
+dataprev=left_join(data1,data2)
+datacarlos=left_join(dataprev,data3)
+```
+
+
+```{r}
+str(datacarlos)
+```
+
+```{r}
+export(datacarlos,"datacarlos.csv")
+```
