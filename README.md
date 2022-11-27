@@ -20,4 +20,4 @@ Repositorio de un análisis sobre el fenómeno migratorio.
 - Data unificada grupal
 - Datas grupales de cada integrante con sus varibles
 - Regresiones 
-- Proyecto final
+- Proyecto final (final-migracion)
