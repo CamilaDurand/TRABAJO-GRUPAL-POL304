@@ -16,3 +16,8 @@ Repositorio de un análisis sobre el fenómeno migratorio.
 -  Indice de la Paz Global
 -  
 ### Contenido del repositorio: ###
+- Datas de cada variable individual 
+- Data unificada grupal
+- Datas grupales de cada integrante con sus varibles
+- Regresiones 
+- Proyecto final
