@@ -1,0 +1,362 @@
+---
+title: "MIGRACIONES A NIVEL MUNDIAL, INFLUENCIA Y VARIABILIDAD"
+author: "Camila Durand, Hector Delgado, Carlos Chavarri"
+date: "2022-11-12"
+output: 
+  prettydoc::html_pretty:
+    theme: hpstr
+    highlight: github
+---
+
+```{r include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r include=FALSE}
+library(rio)
+library(dplyr)
+library(ggplot2)
+library(cowplot)
+library(kableExtra)
+library(reshape)
+library(DT)
+library(equatiomatic)
+library(modelsummary)
+library(factoextra)
+library(cluster)
+library(summarytools)
+library(tidyr)
+library(knitr)
+```
+
+```{r include=FALSE}
+netmigration = import("https://raw.githubusercontent.com/CarlosChavarri23/TRABAJO-GRUPAL-POL304/main/Netmigration2022.csv")
+iso= import("https://raw.githubusercontent.com/CarlosChavarri23/TRABAJO-GRUPAL-POL304/main/iso%20-%20paises.csv")
+colnames(netmigration) = c("country","migration")
+
+```
+
+```{r include=FALSE}
+borrar <- c("iso2", "phone_code", "nom")
+iso3 <- iso[ , !(names(iso) %in% borrar)]
+head(iso3, n=9)
+```
+
+```{r include=FALSE}
+data1= merge(iso3, netmigration, by = "country", all = T)
+```
+
+```{r include=FALSE}
+DATA = import("https://raw.githubusercontent.com/CarlosChavarri23/TRABAJO-GRUPAL-POL304/main/data_final.csv")
+mapDIS=sf::read_sf("world-administrative-boundaries.shp") #shapefile
+```
+
+Las migraciones han sido desde la antigüedad uno de los fenómenos de mayores resultados y por ende más estudiados. Hoy sin duda alguna hay patrones históricos que se mantienen, pero por lo general la globalización y la modernidad han alterado en gran manera las dinámicas de movilidad social. Bajo esta perspectiva se buscan incluir en nuestro análisis factores comúnmente incluidos como cuestiones económicas pero también factores muy característicos del siglo XXI y la modernidad. Hoy existen variables como el impacto del cambio climático y/o el acceso a servicios básicos tales como el internet que pueden influir directamente en el incremento o reducción de migraciones. Este trabajo parte desde la curiosidad académica y una necesidad práctica de responder efectivamente a los flujos migratorios cada vez mayores, mediante la identificación de principales factores que lo provocan y con ello se busca incidir en un futuro próximo en la toma de mejores decisiones que reduzcan la vulnerabilidad de las personas y los estados. 
+
+El objetivo de este breve reporte es analizar como la migracion es afectada por diferentes variables durante el año 2022 en el que se situa nuestra variable dependiente, proporcionada por la CIA. Todo ello con el objetivo de entender en mayor profundidad las dinámicas del comportamiento migratorio alrededor del mundo.
+
+Para ello se llevarán a cabo los siguientes análisis: 
+
+- Realizar un análisis descriptivo y georreferenciado del fenómeno migratorio.
+- Aplicar técnicas de reducción de dimensiones para agrupar a los países en función de diversos indicadores globales.
+- Implementar técnicas multivariadas para modelar la **net migration**. 
+
+Evitamos hacer un analisis factorial debido a que tanto nuestra variable dependiente como algunas otras independientes estan presentadas en indicadores lo que haria que el analisis factorial sea poco efectivo para nuestro investigacion
+```{r include=FALSE}
+colnames(DATA)=c("COUNTRY","iso3","MIGRATION", "DESEMPLEO","CRI","PUBLIC_SERV","INTERNET", "CORRUPTION","HUMANRIGTHS","PEACEINDEX")
+```
+
+```{r include=FALSE}
+minV=min(data1$migration, na.rm=TRUE)
+maxV=max(data1$migration, na.rm=TRUE)
+data1$migration_r=as.vector(scale(data1$migration,
+                          center =minV,
+                          scale = maxV-minV ))
+
+summary(data1$migration)
+summary(data1$migration_r)
+
+```
+
+```{r include=FALSE}
+mapDIS2=merge(mapDIS,data1,by.x='iso3',by.y='iso3', all.x = T) #siempre primero el shape
+```
+
+**1. Análisis de los indicadores:**
+
+La variable dependiente ha utilizar se obtuvo del portal World FactBook de la CIA. Esta estadística busca representar la diferencia de las que entran y salen de un país por cada 1000 personas. Consideramos esta una variable pertinente para poder estudiar el fenómenos migratorio, aunque algunas de sus limitaciones es quizás que no discrimina la razón de entrada o salida del país. 
+
+
+```{r include=FALSE}
+glock = DATA[,c(1,3)]
+```
+
+```{r echo=FALSE}
+datatable(glock, filter = "top")
+```
+
+En cuanto a las variables independientes, recogidas de diversas fuentes, buscan operacionalizar fenómenos como cambio climático, desconfianza en los gobiernos, crisis económicas, violación a derechos humanos, falta de acceso a servicios básicos; como posibles variables detrás de la salida de las personas de sus países de origen
+
+**Derechos Humanos**
+Los derechos humanos fundamentales y si se respetan las libertades civiles individuales son dos factores importantes a tener cuenta en un estado ya que estos aseguran o no el desarrollo pleno de sus ciudadanos en una sociedad que vela por sus intereses. Citando a la declaración Universal de Derechos Humanos,  la libertad, la justicia y la paz en el mundo tienen por base el
+reconocimiento de la dignidad intrínseca y de los derechos iguales e inalienables. En ese sentido, consideramos que si un país no respeta los derechos basicos de la población (incluyendo minorias sociales) existira un mayor numero de migrantes.
+
+**Indice de Paz**
+Tener paz en un país es una pieza clave para que la migración no sea acelerada a niveles descontrolados debido a que un Estado en conflicto tiende a ser menos atractivo para sus ciudadanos. Es por ello que este indicador que clasifica a 163 estados y territorios independientes según su nivel de paz. En ese sentido, en lugar de evaluar los niveles de conflicto en un pais medimos los niveles de paz que muchas veces puede incluir un nivel bajo si hay delincuencia u otros factores externos a conflictos politicos.
+
+**Cambio climatico**
+Base de datos: Germanwatch (GLOBAL CLIMATE RISK INDEX) (climaterisk-index - 2019.csv)
+
+El cambio climático es una de las problemáticas más grandes en el contexto actual, la falta de respuestas adecuadas para mitigar sus efectos ha causado innumerables pérdidas en términos materiales y vidas humanas. Es por ello que hoy el cambio climático se ha convertido en una variable de gran importancia que ha producido un incremento en el desplazamiento forzado. De hecho es cada vez más frecuente que entre la academia se discuta el concepto de refugiado climático y aunque aún no hay una marco jurídico que reconozca ello, es innegable la enorme repercusión de los efectos del cambio climático como un factor que impulsa y acentúa la migración en poblaciones que buscan sobrevivir. Ello es reconocido por organismo como el OIM y por ello a principios de 2015, crearon una División dedicada enteramente a la Migración, Medio Ambiente y Cambio Climático (MECC). Las estadisticas mundiales tambien acentuan el apapel que tiene el cmabio climatico en la migracion como el informe del Banco Mundial, que hace referencia a que es probable que más de 140 millones de personas de tres regiones del mundo en desarrollo emigren dentro de sus países de origen para el año 2050, sumándose a los ya de por sí abarrotados barrios pobres.
+
+**Corrupcion**
+Un país con niveles de corrupción alto en el sector público trae consigo inestabilidad y un resquebrajamiento en las instituciones de un país, algo muy cercano a la realidad peruana. En ese sentido, evaluar como es que la corrupción estatal tiene consecuencias directas en la migración de personas recae en el factor de inestabilidad política que genera tener altos indices de corrupción por lo que este indice califica a 180 países y territorios en función de los niveles percibidos de corrupción en el sector público
+
+**Desempleo** 
+
+Tomando en cuenta el % de la población activa total obtenido de la Base de datos: Banco Mundial (desempleo-2019.csv)
+
+Uno de los factores que históricamente más han influido en los flujos migratorios son las situaciones de subempleo en el país de origen. Son muchos los individuos que emigran de sus hogares al padecer continuos periodos de desempleo, en búsqueda de mayores oportunidades de ellos y sus familias. Particularmente hoy este es un factor primordial a considerar para ver el aumento de las migraciones, dadas las condiciones de mayor movilidad social gracias a las facilidades tecnológicas en el área de transporte. Ello es sostenido por organizaciones como la OIT que estima que entre 2017 y 2019 el número de migrantes internacionales ha incrementado de 164 millones a 169 millones.
+
+
+**Falta de acceso a Servicios Básicos**
+
+**Acceso a servicios públicos** obtenida de la Base de datos: fragilestatesindex (publicservices-2019.csv)
+
+La vida de muchas personas son seriamente afectadas por las condiciones que encuentran en sus países, estas dependen en gran medida del acceso que tengan a los servicios públicos tales como salud, educación, agua y saneamiento, infraestructura de transporte, electricidad y energía, y conectividad. Consideramos el estado de dichos servicios básicos como factores determinantes para la migración pues el encontrarlos o no en sus respectivos países puede incrementar o reducir la migración respectivamente. Ello es mencionado por multiples autores como Albert Mora en Inmigración, servicios públicos e integración social y lo consideramos esencial para profundizar nuestro analisis.
+
+
+**Uso del internet (% población)** obtenida de la Base de Datos: World Bank (DataBank) (usodelinternet.csv)
+
+El internet ha pasado a ser considerado un casi un derecho debido a su importancia para el desarrollo de la vida de las personas. En ese sentido, se considera que la ausencia o problemas de acceso a este servicio por parte de la población podría ayudar a explicar un aumento en la probabilidad de abandoanr el país de origen.
+
+**MAPA DE LA VARIABLE DEPENDIENTE**
+```{r echo=FALSE,message=FALSE,warning=FALSE,eval=TRUE,fig.show='hold',fig.width=9.5,fig.height=5.55}
+### Mapa de variable dependiente
+
+mapaleyendaL= ggplot(mapDIS2)+ geom_sf() + theme_light()
+
+mapaleyL= mapaleyendaL + geom_sf(data=mapDIS2,
+              aes(fill=migration_r),color = "gray")
+      
+mapa= mapaleyL +
+coord_sf() + theme_void() + 
+  
+theme(axis.title = element_blank(), axis.text = element_blank(), legend.position = "bottom") + labs(fill=" ") + theme(legend.text = element_text(size = 8)) +
+  
+labs(title = "INDICE DE MIGRACIÓN") +
+  
+theme(
+plot.title = element_text(color="black", size=10, face="bold"))
+
+mapa
+```
+A partir de nuestra variable dependiente podemos observar una distribución territorial de la siguiente manera. Sin embargo esta es poco clara pues no se ven grandes diferencias entre los países graficados. Esto puede ser explicado por una baja variabilidad de la misma. 
+
+
+```{r echo=FALSE}
+sd(DATA$MIGRATION)
+```
+Entonces, es pertinente realizar una serie de cortes que nos permitan observar de forma más clara la variabilidad.
+```{r include=FALSE}
+#Ese mapa se puede ver mejor si hacen cortes:
+
+mapDIS2$migration_cat = ifelse(mapDIS2$migration_r <= 0.2,1,
+                               ifelse(mapDIS2$migration_r >0.2 & mapDIS2$migration_r <= 0.4,2,
+                                ifelse(mapDIS2$migration_r > 0.4 & mapDIS2$migration_r <= 0.42,3,
+                                ifelse(mapDIS2$migration_r > 0.42 & mapDIS2$migration_r <= 0.44,4,
+                                       ifelse(mapDIS2$migration_r > 0.44,5,0)))))
+```
+
+```{r include=FALSE}
+a= as.data.frame(table(mapDIS2$migration_cat))
+```
+
+```{r include=FALSE}
+
+g1=ggplot(a, aes(x=Var1, y=Freq), fill="green") +
+geom_bar(stat = "identity", color="purple", fill="white") +
+coord_flip()+
+labs(title = "Número de países por grupo",
+subtitle = "Net Migration",
+x = " ",
+y = " ") + 
+geom_text(aes(label=Freq), vjust=0.5, hjust = -1,color="black", size=2.1)
+
+```
+
+```{r echo=FALSE}
+library(ggthemes)
+g1 + theme_economist_white()
+```
+
+```{r include=FALSE}
+g1 + theme_classic()
+```
+
+
+```{r include=FALSE}
+mapDIS2$migration_cat = factor(mapDIS2$migration_cat,
+                               levels = c(1:5),
+                               labels = c("Menor o igual a 0.2",
+                                          "Entre 0.2 y 0.4",
+                                          "Entre 0.4 y 0.42",
+                                          "Entre 0.42 y 0.44",
+                                          "Mayor a 0.44"))
+```
+
+```{r echo=FALSE,message=FALSE,warning=FALSE,eval=TRUE,fig.show='hold',fig.width=9.5,fig.height=5.55}
+mapaleyendaL= ggplot(mapDIS2)+ geom_sf() + theme_light()
+
+mapaleyL= mapaleyendaL + geom_sf(data=mapDIS2,
+              aes(fill=migration_cat),color = "gray")
+      
+mapa3= mapaleyL +
+coord_sf() + 
+scale_fill_manual(values=c("#F49B84","#F1AC7E","#F19252","#EE701B","#F73505")) + theme_void() +
+  
+  
+theme(axis.title = element_blank(), axis.text = element_blank(), legend.position = "bottom") + labs(fill=" ")  +
+  
+labs(title = "Migración a nivel mundial (Escala 0-1)",caption = "Fuente: CIA 2022\nElaborado por: Camila") +
+  
+theme(
+plot.title = element_text(color="black", size=15, face="bold"),
+plot.caption = element_text(color = "black", size=10))
+
+mapa3
+```
+De esta manera obtenemos un mapa de calor de nuestra variable dependiente mucho mas precisa, que puntualiza como pese a que la migracion en este indice no es tan variada tiene cambios significativos en ciertas areas de las regiones.
+
+**REDUCCION DE DIMENSIONES**
+
+```{r include=FALSE}
+dataClus=DATA[,c(4:10)]
+row.names(dataClus)=DATA$COUNTRY
+```
+
+```{r include=FALSE}
+library(cluster)
+g.dist = daisy(dataClus, metric="gower")
+```
+
+```{r echo=FALSE}
+library(factoextra)
+fviz_nbclust(dataClus, pam,diss=g.dist,method = "gap_stat",k.max = 10,verbose = F)
+fviz_nbclust(dataClus, hcut,diss=g.dist,method = "gap_stat",k.max = 10,verbose = F)
+```
+
+Analizando lo recomendado seria clusterizar en dos o un grupo, lo cual es poco pertinente considerando la gran diversidad de circunstancias que afrontan los paises analizados y por ello decidimos exporar con el numero de clusters hasta elegir que lo mas pertinente seria agruparlo en tres grupos. 
+```{r include=FALSE}
+res.pam = pam(g.dist,3,cluster.only = F)
+res.agnes = hcut(g.dist, k = 3,hc_func='agnes',hc_method = "ward.D")
+res.diana = hcut(g.dist, k = 3,hc_func='diana')
+```
+
+```{r echo=FALSE}
+#Evaluación gráfica
+fviz_silhouette(res.pam) #PAM
+```
+
+```{r include=FALSE}
+fviz_silhouette(res.agnes) #AGNES
+```
+
+```{r include=FALSE} 
+fviz_silhouette(res.diana) #Diana
+```
+Tomando en cuenta los tres graficos elegimos declinarnos por PAM debido a que es la que obtiene un mayor valor de 0.3 y tiene menos datos mal clusterizados y en un solo grupo a diferencia de Agnes con el mismo valor de 0.3. 
+
+Evaluamos los datos mal clusterizados del modelo elgido (PAM)
+```{r echo=FALSE}
+silPAM=data.frame(res.pam$silinfo$widths)
+silPAM$COUNTRY=row.names(silPAM)
+poorPAM=silPAM[silPAM$sil_width<0,'COUNTRY']%>%sort()
+poorPAM
+```
+
+```{r echo=FALSE}
+set.seed(123)
+dataClus$pam=res.pam$cluster #PAM es el que mejor sale
+head(dataClus,15)%>%kbl%>%kable_styling()
+```
+
+La mejor silueta se obtiene con PAM, calculamos el promedio d elos grupos apra facilitar su analisis
+```{r echo=FALSE}
+aggregate(.~ pam, data=dataClus,mean)
+```
+**MAPA DE CLUSTERS**
+```{r include=FALSE} 
+#Lo pasamos a la data original:
+dataClus$COUNTRY = row.names(dataClus)
+row.names(dataClus) = NULL
+dataClus = dataClus[,c(8,9)]
+```
+
+```{r include=FALSE} 
+DATA = merge(DATA, dataClus, by = "COUNTRY")
+DATA$pam = factor(DATA$pam) #Lo necesitamos como factor!!
+```
+
+```{r include=FALSE} 
+mapDIS3=merge(mapDIS,DATA,by.x='iso3',by.y='iso3', all.x = T) #siempre primero el shape
+```
+Al agregar los grupos de la clusterizacion a nuestra data original es posible visualizar por medio de un mapa la division de los grupos 
+
+En los resultados de PAM vemos que en el cluster 1 las variables con mayor influencia a comparación de los demas cluster son el desempleo y el índice de riesgo climatico.Este grupo es caracterizado por paises principalmente de latinoamerica, europa, ciertas islas y el sur de africa, representadas por el color morado.
+El cluster 2 presenta la mayor relevancia en las variables de acceso internet y el indice de paz, esto puede indicar que los paises del cluster 2 presentan mayores casos de paises pacificos. Dicho grupo es represnetado por paises como canada, australia y nueva zelanda, se representan por el color verde.
+En el caso del cluster 3 los paises tienden a migrar mas debido al acceso de servicios publicos y problemas repsecto a sus derechos humanos, dicho grupo es represnetado por el color celeste principalmente en africa.
+
+```{r echo=FALSE, message=FALSE,warning=FALSE,eval=TRUE,fig.show='hold',fig.width=9.5,fig.height=5.55}
+mapaleyendaL= ggplot(mapDIS3)+ geom_sf() + theme_light()
+
+mapaleyL= mapaleyendaL + geom_sf(data=mapDIS3,
+              aes(fill=pam),color = "gray")
+      
+mapa3= mapaleyL +
+coord_sf() + 
+scale_fill_manual(values=c("#800080","#17A589","#2980B9")) + theme_void() +
+  
+  
+theme(axis.title = element_blank(), axis.text = element_blank(), legend.position = c(1.1,0.55)) + labs(fill=" ") + theme(legend.text = element_text(size = 13)) +
+  
+labs(title = "Paises y el grado de migracion segun las variables analizadas",caption = "Fuente: CIA 2022\nElaborado por: Camila") +
+  
+theme(
+plot.title = element_text(color="black", size=15, face="bold"),
+plot.caption = element_text(color = "black", size=10))
+
+mapa3
+```
+
+**REGRESION**
+```{r include=FALSE}
+library(stargazer)
+modelo1=formula(MIGRATION~ DESEMPLEO + CRI + PUBLIC_SERV + CORRUPTION + HUMANRIGTHS + INTERNET)
+reg1=lm(modelo1,data=DATA)
+summary(reg1)
+
+library(modelsummary)
+model1=list('modelo1'=reg1)
+```
+
+
+```{r echo=FALSE}
+modelsummary(model1, title = "Regresion: modelo 1",
+             stars = TRUE,
+             output = "kableExtra")
+```
+
+La regresión de la variable dependiente junto a todas las variables independientes arroja varios resultados. Primero, el intercepto que representa a  la media de la respuesta cuando
+todas las variables explicativas toman el valor de 0 a 1.328 lo cual significa que cuando no se presentan ninguna de estas variables la migración es baja (1%).  Sin embargo, debido al  
+r2 ajustado muy bajo, el poder explicativo es debil siendo la variable de Human rights la que posee la mayor significancia entre las demas. Asi mismo, la variable de servicios publicos que es la que tiene mayor poder explicativo esto se puede deber a que un Estado con servicios publicos deplorables favorecera la migracion de las personas.
+
+#CONCLUSIONES:
+A modo de conclusión, el presente trabajo ha sido un esfuerzo por tratar de comprender de una mejor manera el fenómeno migratorio a nivel mundial. Para ello, realizó la operacionalización de un número de variables disponibles en diversos portales web, a partir de una revisión de literatura y recomendaciones metodológicas.En ese sentido, se han puesto a prueba las posibles variables que podrían explicar la migración mundial mediante modelos de regresión multivariados, complementados por una previa aplicación de técnicas de reducción de dimensiones, que nos puedan brindar una perspectiva más detallada. De la misma manera, se realizó un análisis de tipo georeferenciado, con el objetivo de poder visualizar cómo se distribuyen estos valores en el mundo, y si hay zonas en las que se podría profundizar para próximas investigaciones. 
+
+Finalmente, se podría señalar que si bien los resultados obtenidos en el modelo de regresión propuesto no son los más optimistas, funcionan como un adecuado punto de partida sobre el tema. Esto debido a que nos ha mostrado que las razones detrás de la migración están más ocultas, y requieren un esfuerzo mayor para obtener resultados más certeros. En ese sentido, en este momento, es muy poco probable establecer una explicación certera para la migración a nivel global, sin embargo, variables como derechos humanos y cambio climático, si mostraron un importante potencial para ser incluída en próximas indagaciones.
+
+
+
+
+
